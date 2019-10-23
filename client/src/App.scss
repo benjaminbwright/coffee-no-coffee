@@ -1,0 +1,62 @@
+// Header styles
+.App-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 10vh;
+    background: rgb(255, 126, 123);
+    border-bottom: solid 6px #5c341e;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+// Coffee Prediction Styles
+#coffee-prediction {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgb(245, 231, 212);
+}
+
+// Footer Interface Styles
+#footer-interface {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 20vh;
+    background: rgb(71, 213, 203);
+    border-top: solid 6px #5c341e;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .coffee-button {
+        height: 2em;
+        width: 2em;
+        display: inline-block;
+        margin: 1.5em;
+        background: #fff;
+        padding: 1.5em;
+        border-radius: 50%;
+        border: solid 6px #5c341e;
+        box-shadow: 0 0 6px #000;
+        &.filled-up {
+            transform: rotate(-20deg);
+        }
+        &.poured-out {
+            transform: rotate(-165deg);
+        }
+        &:hover {
+            background: rgb(255, 126, 123);
+            img {
+                fill: #fff;
+            }
+        }
+    }
+}
