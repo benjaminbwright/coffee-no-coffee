@@ -13,9 +13,11 @@ function App() {
           50% Chance of Coffee
         </div>
       </div>
-      <div id="coffee-buttons">
-        <button>Coffee</button> | 
-        <button>No Coffee</button>
+      <div id="footer-interface">
+        <div id="coffee-buttons">
+          <button>Coffee</button> | 
+          <button>No Coffee</button>
+        </div>
       </div>
     </div>
   );
