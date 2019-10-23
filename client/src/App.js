@@ -27,7 +27,7 @@ function App() {
         <div id="coffee-odds">
           50%
         </div>
-        <h2>Chances of Coffee Right Now</h2>
+        <h2>Chance of Coffee</h2>
       </div>
       <div id="footer-interface">
         <div id="coffee-buttons">
