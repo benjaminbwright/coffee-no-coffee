@@ -31,6 +31,7 @@ class App extends React.Component {
     // make an api call that tracks empty coffee in the DB
   }
 
+  // record the coffee status
   recordCoffeeStatus = (coffeePresent) => {
     // get a time stamp using Date
     const coffeeStatusTime = new Date().getTime();
@@ -58,17 +59,13 @@ class App extends React.Component {
 
   // get the coffee odds
   getCoffeeOdds = () => {
-    const coffeeOdds = this.predictCoffeeOdds();
-    return coffeeOdds;  
-  }
-
-  predictCoffeeOdds = () => {
     // this is a prediction number that will be pulled from a prediction API
     // TODO: add api pull to get prediction number
     const predictionNumber = 50;
     // time in minutes since the last time a coffee button was clicked
     // this will be based on the timestamp from the last coffee status update
     const coffeeStatus = this.getLastCoffeeStatus();
+    // Set initial value since last check
     let timeSinceCoffeeCheck = 0;
     timeSinceCoffeeCheck = coffeeStatus.timeSinceCoffeeCheck;
     // time interval in minutes to return to the predicted number
@@ -100,7 +97,7 @@ class App extends React.Component {
         loading: false
       })
     }, 1000)
-  }
+  } 
 
   render() {
     return (
@@ -118,6 +115,7 @@ class App extends React.Component {
             </div>
           )
         }
+        <div id="footer-message">Is there any coffee left?</div>
         <div id="footer-interface">
           <div id="coffee-buttons">
             <div className="coffee-button filled-up" onClick={this.coffeeFullClick}><img src={coffeecup} alt="Coffe Cup"/></div>

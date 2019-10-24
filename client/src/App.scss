@@ -34,6 +34,14 @@
 }
 
 // Footer Interface Styles
+#footer-message {
+    color: #fff;
+    position: fixed;
+    bottom: 9em;
+    text-align: center;
+    width: 100%;
+}
+
 #footer-interface {
     position: fixed;
     right: 0;
@@ -43,7 +51,7 @@
     background: rgb(71, 213, 203);
     border-top: solid 6px #5c341e;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     .coffee-button {
