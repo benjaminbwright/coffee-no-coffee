@@ -1,6 +1,11 @@
 const express = require("express");
+const mongoose = require("mongoose");
+
 const app = express();
 const ROUTE = 4000;
+
+// Connect to the Mongo DB
+mongoose.connect("mongodb://localhost/coffeenocoffeedb", { useNewUrlParser: true });
 
 // the index route
 // expect this route only to deliver dead air since it should not be publicly viewable
