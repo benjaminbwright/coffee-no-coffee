@@ -37,14 +37,42 @@ class App extends React.Component {
     // make an api call that tracks empty coffee in the DB
   }
 
-  getCoffeOdds = () => {
-    const coffeeOdds = 25;
+  // get the coffee odds
+  getCoffeeOdds = () => {
+    const coffeeOdds = this.predictCoffeeOdds();
+    return coffeeOdds;
+  }
+
+  predictCoffeeOdds = () => {
+    // this is a prediction number that will be pulled from a prediction API
+    // TODO: add api pull to get prediction number
+    const predictionNumber = 50;
+    // time in minutes since the last time a coffee button was clicked
+    // this will be based on the timestamp from the last coffee check record in the database
+    // TODO: write method that grabs the last timestamp for a coffeecheck
+    const timeSinceCoffeeCheck = 20;
+    // time interval in minutes to return to the predicted number
+    const adjustmentInterval = 25;
+    // current prediction number adjusted by latest coffee button clicks
+    const coffeePresentLastCheck = false;
+    // initialize coffeOdds variable
+    let coffeeOdds = predictionNumber;
+    if (coffeePresentLastCheck && timeSinceCoffeeCheck < adjustmentInterval) {
+      // offset from predictionNumber
+      const offset = (100 - predictionNumber) * (1 - (timeSinceCoffeeCheck/adjustmentInterval));
+      coffeeOdds = predictionNumber + offset;
+    } else if (!coffeePresentLastCheck && timeSinceCoffeeCheck < adjustmentInterval) {
+      // offset from predictionNumber
+      const offset = predictionNumber * (1 - (timeSinceCoffeeCheck/adjustmentInterval));
+      coffeeOdds = predictionNumber - offset;
+    }
+
     return coffeeOdds;
   }
 
   componentDidMount() {
     // get the coffee odds from the api
-    const coffeeOdds = this.getCoffeOdds();
+    const coffeeOdds = this.getCoffeeOdds();
     // set the new coffee odds in the state and stop loading
     setTimeout(() => {
       this.setState({
