@@ -2,8 +2,6 @@ import React from 'react';
 import coffeecup from './big-cup.svg';
 import './App.scss';
 
-console.log(coffeecup);
-
 class App extends React.Component {
 
   state = {
@@ -15,9 +13,7 @@ class App extends React.Component {
   coffeeFullClick = () => {
     let coffeeOdds = this.state.coffeeOdds;
     console.log(`Yay! There's coffee.`);
-    if (coffeeOdds <= 100) {
-      coffeeOdds++;
-    }
+    this.recordCoffeeStatus(true);
     this.setState({
       coffeeOdds: coffeeOdds
     })
@@ -28,19 +24,42 @@ class App extends React.Component {
   coffeeEmptyClick = () => {
     let coffeeOdds = this.state.coffeeOdds;
     console.log(`There's no coffee. Come back later`);
-    if (coffeeOdds >= 0) {
-      coffeeOdds--;
-    }
+    this.recordCoffeeStatus(false);
     this.setState({
       coffeeOdds: coffeeOdds
     })
     // make an api call that tracks empty coffee in the DB
   }
 
+  recordCoffeeStatus = (coffeePresent) => {
+    // get a time stamp using Date
+    const coffeeStatusTime = new Date().getTime();
+    // add time stamp and coffee status into an object an put it in local storage
+    const coffeeStatus = {
+      coffeePresent,
+      coffeeStatusTime
+    }
+    localStorage.setItem("coffeeStatus", JSON.stringify(coffeeStatus));
+    // TODO:try storing the info using redis
+  }
+
+  getLastCoffeeStatus = () => {
+    // Get the coffee status from local storage
+    const coffeeStatus = JSON.parse(localStorage.getItem("coffeeStatus"));
+    // Get the current time & find the time interval since the last coffee status update
+    const now = new Date();
+    const timeSinceCoffeeCheck = new Date(now - coffeeStatus.coffeeStatusTime);
+    // Return the coffee status and the elapsed time since the latest update
+    return {
+      timeSinceCoffeeCheck: timeSinceCoffeeCheck.getMinutes(),
+      coffeePresent: coffeeStatus.coffeePresent
+    };
+  }
+
   // get the coffee odds
   getCoffeeOdds = () => {
     const coffeeOdds = this.predictCoffeeOdds();
-    return coffeeOdds;
+    return coffeeOdds;  
   }
 
   predictCoffeeOdds = () => {
@@ -48,13 +67,14 @@ class App extends React.Component {
     // TODO: add api pull to get prediction number
     const predictionNumber = 50;
     // time in minutes since the last time a coffee button was clicked
-    // this will be based on the timestamp from the last coffee check record in the database
-    // TODO: write method that grabs the last timestamp for a coffeecheck
-    const timeSinceCoffeeCheck = 20;
+    // this will be based on the timestamp from the last coffee status update
+    const coffeeStatus = this.getLastCoffeeStatus();
+    let timeSinceCoffeeCheck = 0;
+    timeSinceCoffeeCheck = coffeeStatus.timeSinceCoffeeCheck;
     // time interval in minutes to return to the predicted number
     const adjustmentInterval = 25;
     // current prediction number adjusted by latest coffee button clicks
-    const coffeePresentLastCheck = false;
+    const coffeePresentLastCheck = coffeeStatus.coffeePresent;
     // initialize coffeOdds variable
     let coffeeOdds = predictionNumber;
     if (coffeePresentLastCheck && timeSinceCoffeeCheck < adjustmentInterval) {
