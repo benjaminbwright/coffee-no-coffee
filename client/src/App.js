@@ -11,9 +11,9 @@ class App extends React.Component {
 
   // Handle click event for the coffee is full icon.
   coffeeFullClick = () => {
-    let coffeeOdds = this.state.coffeeOdds;
     console.log(`Yay! There's coffee.`);
     this.recordCoffeeStatus(true);
+    let coffeeOdds = this.getCoffeeOdds();
     this.setState({
       coffeeOdds: coffeeOdds
     })
@@ -22,9 +22,9 @@ class App extends React.Component {
 
   // Handle click event for when the coffee is empty.
   coffeeEmptyClick = () => {
-    let coffeeOdds = this.state.coffeeOdds;
     console.log(`There's no coffee. Come back later`);
     this.recordCoffeeStatus(false);
+    let coffeeOdds = this.getCoffeeOdds();
     this.setState({
       coffeeOdds: coffeeOdds
     })
@@ -91,7 +91,8 @@ class App extends React.Component {
     // get the coffee odds from the api
     const coffeeOdds = this.getCoffeeOdds();
     // set the new coffee odds in the state and stop loading
-    setTimeout(() => {
+    setInterval(() => {
+      let coffeeOdds = this.getCoffeeOdds();
       this.setState({
         coffeeOdds,
         loading: false
