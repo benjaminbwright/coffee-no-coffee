@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import coffeecup from './big-cup.svg';
 import './App.scss';
 
@@ -33,15 +34,19 @@ class App extends React.Component {
 
   // record the coffee status
   recordCoffeeStatus = (coffeePresent) => {
-    // get a time stamp using Date
-    const coffeeStatusTime = new Date().getTime();
-    // add time stamp and coffee status into an object an put it in local storage
-    const coffeeStatus = {
-      coffeePresent,
-      coffeeStatusTime
-    }
-    localStorage.setItem("coffeeStatus", JSON.stringify(coffeeStatus));
-    // TODO:try storing the info using redis
+    // // get a time stamp using Date
+    // const coffeeStatusTime = new Date().getTime();
+    // // add time stamp and coffee status into an object an put it in local storage
+    // const coffeeStatus = {
+    //   coffeePresent,
+    //   coffeeStatusTime
+    // }
+    // localStorage.setItem("coffeeStatus", JSON.stringify(coffeeStatus));
+    // // TODO:try storing the info using redis
+    axios.post(`/api/v1/coffeeStatus/${coffeePresent}`)
+      .then(function(){
+        console.log("you just logged some coffee!!!");
+      });
   }
 
   getLastCoffeeStatus = () => {
