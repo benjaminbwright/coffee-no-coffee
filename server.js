@@ -36,6 +36,13 @@ app.post("/api/v1/coffeeStatus/:coffeePresent", (req, res) => {
     });
 });
 
+app.get("/api/v1/coffeeStatus/last", (req, res) => {
+  CoffeeStatus.find().sort({ _id: -1 }).limit(1).exec(function(err, coffeeStatus){
+    if (err) throw err;
+    res.json(coffeeStatus[0]);
+  });
+});
+
 // TODO: add a general route the redirects all unauthorized to a 404 or something similar
 
 app.listen(ROUTE, () => console.log(`Your server is running on route ${ROUTE}`));
