@@ -7,9 +7,10 @@ class App extends React.Component {
 
   state = {
     lastCoffeeStatus: {
-      timeSinceCoffeeCheck: 0,
+      timeSinceCoffeeCheck: undefined,
       coffeePresent: null
     },
+    prediction: 50,
     coffeeOdds: 50,
     loading: true
   }
@@ -57,15 +58,19 @@ class App extends React.Component {
         return currentStatus;
       })
       .then((currentStatus) => {
-        // console.log(currentStatus);
-        this.setState(currentStatus)
+        console.log(currentStatus);
+        if (currentStatus.lastCoffeeStatus.timeSinceCoffeeCheck < 25) {
+          this.setState(currentStatus);
+        } else {
+          this.getCoffeePrediction();
+        }
       });
   }
 
   // get the coffee odds
   getCoffeeOdds = () => {
     // this is a prediction number that will be pulled from a prediction API
-    const predictionNumber = 50;
+    const predictionNumber = this.state.prediction;
     // time in minutes since the last time a coffee button was clicked
     // this will be based on the timestamp from the last coffee status update
     const coffeeStatus = this.state.lastCoffeeStatus;
@@ -87,6 +92,17 @@ class App extends React.Component {
     }
 
     return coffeeOdds;
+  }
+
+  getCoffeePrediction = () => {
+    axios.get(`/api/v1/coffeeStatus/predict`)
+    .then((response) => {
+      const prediction = response.data.prediction;
+      console.log(response);
+      this.setState({
+        prediction
+      })
+    })
   }
 
   componentDidMount() {

@@ -43,6 +43,23 @@ app.get("/api/v1/coffeeStatus/last", (req, res) => {
   });
 });
 
+app.get("/api/v1/coffeeStatus/predict", (req, res) => {
+  CoffeeStatus.find({}, function(err, coffeeStatus){
+    if (err) throw err;
+    let tally = 0;
+    for (let i = 0; i < coffeeStatus.length; i++) {
+      if (coffeeStatus[i].coffeePresent === true) {
+        tally++;
+      }     
+    }
+    console.log(tally)
+    const average = parseInt((tally / coffeeStatus.length)*100);
+    res.json({
+      prediction: average
+    });
+  });
+});
+
 // TODO: add a general route the redirects all unauthorized to a 404 or something similar
 
 app.listen(ROUTE, () => console.log(`Your server is running on route ${ROUTE}`));
