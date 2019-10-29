@@ -53,7 +53,7 @@ app.get("/api/v1/coffeeStatus/predict", (req, res) => {
       }     
     }
     console.log(tally)
-    const average = parseInt((tally / coffeeStatus.length)*100);
+    const average = Math.floor((tally / coffeeStatus.length)*100);
     res.json({
       prediction: average
     });
